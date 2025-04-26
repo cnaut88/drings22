@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pepsi та Sprite Колекція</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="menu-button" onclick="toggleSidebar()" aria-label="Меню">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    
+    <!-- Затемнення -->
+    <div id="overlay" onclick="toggleSidebar()"></div>
+    
+    <!-- Меню -->
+    <div id="sidebar">
+        <ul>
+          <li>
+            <span>Змінити тему</span>
+            <label class="switch">
+              <input type="checkbox" id="theme-toggle">
+              <span class="slider"></span>
+            </label>
+          </li>
+          <li><a href="#">Про нас</a></li>
+          <li><a href="#">Контакти</a></li>
+        </ul>
+    </div>
+
+    <header style="padding: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+      <!-- Пошук трохи правіше -->
+      <div class="search-container" style="flex-grow: 1; text-align: center; margin-left: 200px;">
+          <input type="text" id="search-input" placeholder="Пошук товару..." onkeyup="searchProducts()" style="padding: 10px; width: 80%; max-width: 500px;">
+          <div class="search-results" id="search-results"></div>
+      </div>
+      
+      <!-- Кнопка "Улюблені" в кінці -->
+      <a href="favorites.html" style="text-decoration: none;">
+          <button id="favorites-counter" style="position: relative; font-size: 18px; padding: 10px 20px;">
+              Улюблені ❤️ (<span id="favorite-count">0</span>)
+          </button>
+      </a>
+  </header>
+  
+  <style>
+      /* Медіа-запит для мобільних пристроїв */
+      @media (max-width: 768px) {
+          header {
+              flex-direction: column; /* Вирівнює елементи вертикально */
+              text-align: center;
+          }
+  
+          .search-container {
+              margin-right: 0;
+              width: 100%; /* Робить пошук шириною 100% на мобільних */
+              margin-bottom: 10px;
+          }
+  
+          .search-container input {
+              width: 90%; /* Робить інпут ширше на мобільних */
+          }
+  
+          #favorites-counter {
+              margin-top: 10px; /* Відступ для кнопки "Улюблені" */
+          }
+      }
+  </style>
+  
+  
+
+    <main>
+      <button class="menu-button" onclick="toggleSidebar()" aria-label="Меню">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    
+    <!-- Затемнення -->
+    <div id="overlay" onclick="toggleSidebar()"></div>
+    
+    <!-- Меню -->
+    <div id="sidebar">
+        <ul>
+          <li>
+            <span>Змінити тему</span>
+            <label class="switch">
+              <input type="checkbox" id="theme-toggle">
+              <span class="slider"></span>
+            </label>
+          </li>
+          <li><a href="#">Про нас</a></li>
+          <li><a href="#">Контакти</a></li>
+        </ul>
+    </div>
+
+    
+  
+  <style>
+      @media (max-width: 768px) {
+          header {
+              flex-direction: column;
+              text-align: center;
+          }
+          .search-container {
+              margin-right: 0;
+              width: 100%;
+              margin-bottom: 10px;
+          }
+          .search-container input {
+              width: 90%;
+          }
+          #favorites-counter {
+              margin-top: 10px;
+          }
+      }
+      
+  body.dark-theme {
+      background-color: #1a1a1a;
+      color: #f0f0f0;
+  }
+
+  body.dark-theme .product-card {
+      background-color: #2a2a2a;
+      border-color: #444;
+  }
+
+  body.dark-theme .product-title,
+  body.dark-theme .product-price,
+  body.dark-theme .product-description p {
+      color: #f0f0f0;
+  }
+
+  body.dark-theme header,
+  body.dark-theme footer {
+      background-color: #111;
+      color: #f0f0f0;
+  }
+
+  body.dark-theme a {
+      color: #66ccff;
+  }
+
+  body.dark-theme .search-container input {
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #555;
+  }
+
+  body.dark-theme .favorite-btn {
+      background-color: #333;
+      color: #ff6600;
+  }
+
+  body.dark-theme .favorite-btn.active {
+      background-color: #ff6600;
+      color: #fff;
+  }
+
+  body.dark-theme .remove-btn {
+      background-color: #333;
+      color: #ff4d4d;
+  }
+</style>
+
+<main>
+  <div class="carousel-container">
+    <div class="carousel-slide">
+        <div class="product-card" data-product="1">
+            <button class="favorite-btn" aria-label="Додати в улюблені">♡</button>
+            <img src="img/fanta-apple.webp" alt="Fanta яблуко" class="product-image">
+            <h3 class="product-title">1. Fanta Яблуко</h3>
+          <p class="product-price">Ціна: 39 грн</p>
+          <div class="product-description">
+              <p>Смак: Яблуко</p>
+              <p>Об'єм: 0,5 л</p>
+              <p>Калорійність: 45 ккал/100мл</p>
+            </div>
+        </div>
+
+        <div class="product-card" data-product="2">
+            <button class="favorite-btn" aria-label="Додати в улюблені">♡</button>
+            <img src="img/fanta-cassis.webp" alt="Fanta смородина" class="product-image">
+            <h3 class="product-title">2. Fanta Чорна смородина</h3>
+          <p class="product-price">Ціна: 39 грн</p>
+          <div class="product-description">
+              <p>Смак: Чорна смородина</p>
+              <p>Об'єм: 0,5 л</p>
+              <p>Калорійність: 46 ккал/100мл</p>
+          </div>
+        </div>
+
+        <div class="product-card" data-product="3">
+            <button class="favorite-btn" aria-label="Додати в улюблені">♡</button>
+            <img src="img/fanta-cherry.webp" alt="Xiaomi 12" class="product-image">
+            <h3 class="product-title">3. Fanta Вишня</h3>
+          <p class="product-price">Ціна: 39 грн</p>
+          <div class="product-description">
+              <p>Смак: Вишня</p>
+              <p>Об'єм: 0,5 л</p>
+              <p>Калорійність: 47 ккал/100мл</p>
+          </div>
+        </div>
+        <div class="product-card" data-product="4">
+          <button class="favorite-btn" aria-label="Додати в улюблені">♡</button>
+          <img src="img/fanta-elderflower-lemon.webp" alt="Xiaomi 12" class="product-image">
+          <h3 class="product-title">4. Fanta Бузина та Лимон</h3>
+          <p class="product-price">Ціна: 39 грн</p>
+          <div class="product-description">
+              <p>Смак: Бузина та лимон</p>
+              <p>Об'єм: 0,5 л</p>
+              <p>Калорійність: 44 ккал/100мл</p>
+          </div>
+      </div>
+    </div>
+</div>
+
+
+
+<div class="carousel-container">
+  <div class="carousel-slide">
+      <div class="product-card" data-product="5">
+          <button class="favorite-btn" aria-label="Додати в улюблені">♡</button>
+          <img src="img/fanta-frambuesa.webp" alt="Samsung Galaxy S24" class="product-image">
+          <h3 class="product-title">5. Fanta Малина</h3>
+          <p class="product-price">Ціна: 39 грн</p>
+          <div class="product-description">
+              <p>Смак: Малина</p>
+              <p>Об'єм: 0,5 л</p>
+              <p>Калорійність: 46 ккал/100мл</p>
+          </div>
+      </div>
+
+      <div class="product-card" data-product="6">
+          <button class="favorite-btn" aria-label="Додати в улюблені">♡</button>
+          <img src="img/fanta-fruit-punch.webp" alt="iPhone 14" class="product-image">
+          <h3 class="product-title">6. Fanta Фруктовий мікс</h3>
+          <p class="product-price">Ціна: 39 грн</p>
+          <div class="product-description">
+              <p>Смак: Фруктовий мікс</p>
+              <p>Об'єм: 0,5 л</p>
+              <p>Калорійність: 48 ккал/100мл</p>
+          </div>
+      </div>
+
+      <div class="product-card" data-product="7">
+          <button class="favorite-btn" aria-label="Додати в улюблені">♡</button>
+          <img src="img/fanta-lemon.webp" alt="Xiaomi 12" class="product-image">
+          <h3 class="product-title">7. Fanta Лимон</h3>
+          <p class="product-price">Ціна: 39 грн</p>
+          <div class="product-description">
+              <p>Смак: Лимон</p>
+              <p>Об'єм: 0,5 л</p>
+              <p>Калорійність: 42 ккал/100мл</p>
+          </div>
+      </div>
+      <div class="product-card" data-product="8">
+        <button class="favorite-btn" aria-label="Додати в улюблені">♡</button>
+        <img src="img/fanta-peach.webp" alt="Xiaomi 12" class="product-image">
+        <h3 class="product-title">8. Fanta Персик</h3>
+          <p class="product-price">Ціна: 39 грн</p>
+          <div class="product-description">
+              <p>Смак: Персик</p>
+              <p>Об'єм: 0,5 л</p>
+              <p>Калорійність: 45 ккал/100мл</p>
+          </div>
+    </div>
+  </div>
+</div>
+
+<!-- Модальне вікно -->
+<div id="product-modal" class="modal">
+  <div class="modal-content">
+      <button class="close-btn" id="close-modal-btn">X</button>
+      <h3 id="modal-title"></h3>
+      <p id="modal-price"></p>
+      <div id="modal-description"></div>
+  </div>
+</div>
+
+
+    
+    <script>
+//localStorage.removeItem('favorites'); // Видалити всі улюблені товари
+//localStorage.removeItem('favoritesCount'); // Якщо є лічильник
+
+const productCards = document.querySelectorAll('.product-card');
+const modal = document.getElementById('product-modal');
+const closeModalBtn = document.getElementById('close-modal-btn');
+const modalTitle = document.getElementById('modal-title');
+const modalPrice = document.getElementById('modal-price');
+const modalDescription = document.getElementById('modal-description');
+
+// Відкриваємо модальне вікно при кліку на картку продукту
+productCards.forEach(card => {
+    card.addEventListener('click', () => {
+        const title = card.querySelector('.product-title').textContent;
+        const price = card.querySelector('.product-price').textContent;
+        const description = card.querySelector('.product-description').innerHTML;
+
+        // Встановлюємо контент в модальному вікні
+        modalTitle.textContent = title;
+        modalPrice.textContent = price;
+        modalDescription.innerHTML = description;
+
+        // Додаємо клас active, щоб модальне вікно з'явилось
+        modal.classList.add('active');
+    });
+});
+
+// Закриваємо модальне вікно при натисканні на кнопку "X"
+closeModalBtn.addEventListener('click', () => {
+    modal.classList.remove('active');
+});
+
+// Закрити модальне вікно при кліку поза ним
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.classList.remove('active');
+    }
+});
+
+
+// Модальне вікно
+
+
+updateFavoriteCounter();
+
+
+closeModalBtn.addEventListener('click', () => {
+    modal.classList.remove('active');
+});
+
+// Закрити модальне вікно при кліку поза ним
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.classList.remove('active');
+    }
+});
+
+
+
+
+      function openModal(image, title, description) {
+            document.getElementById("modal-img").src = image;
+            document.getElementById("modal-title").textContent = title;
+            document.getElementById("modal-description").textContent = description;
+            document.getElementById("modal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("modal").style.display = "none";
+        }
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        const toggleButton = document.getElementById("theme-toggle");
+        const body = document.body;
+
+        if (localStorage.getItem("theme") === "dark") {
+            body.classList.add("dark-theme");
+            toggleButton.checked = true; 
+        }
+
+        toggleButton.addEventListener("change", () => {
+            body.classList.toggle("dark-theme");
+            localStorage.setItem("theme", body.classList.contains("dark-theme") ? "dark" : "light");
+        });
+
+        const favoriteButtons = document.querySelectorAll('.favorite-btn');
+        function getFavorites() {
+            return JSON.parse(localStorage.getItem('favorites')) || [];
+        }
+
+        function saveFavorites(favorites) {
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            
+
+        }
+
+        function updateFavoriteCounter() {
+            const count = getFavorites().length;
+            document.getElementById('favorite-count').textContent = count;
+        }
+
+        favoriteButtons.forEach(button => {
+            const card = button.closest('.product-card');
+            const productId = card.getAttribute('data-product');
+
+            if (getFavorites().includes(productId)) {
+                button.classList.add('active');
+            }
+
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                let favorites = getFavorites();
+
+                if (favorites.includes(productId)) {
+                    favorites = favorites.filter(id => id !== productId);
+                    button.classList.remove('active');
+                } else {
+                    favorites.push(productId);
+                    button.classList.add('active');
+                }
+
+                saveFavorites(favorites);
+                updateFavoriteCounter();
+            });
+        });
+
+        updateFavoriteCounter();
+       
+
+        
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+        
+
+        function searchProducts() {
+            const searchInput = document.getElementById("search-input").value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+            const searchResults = document.getElementById("search-results");
+
+            let results = [];
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').textContent.toLowerCase();
+                if (title.includes(searchInput)) {
+                    card.style.display = "block";
+                    results.push(card.querySelector('.product-title').textContent);
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            searchResults.innerHTML = results.length ? results.join('<br>') : 'Нічого не знайдено';
+        }
+        function clearInvalidFavorites() {
+    let favorites = getFavorites();
+    // Фільтруємо лише товари, які існують на сторінці
+    const validFavorites = favorites.filter(productId => {
+        return document.querySelector(`[data-product="${productId}"]`) !== null;
+    });
+    saveFavorites(validFavorites);
+    updateFavoriteCounter();
+}
+
+
+        
+
+        
+    </script>
+    <footer class="footer">
+        <div class="footer-container">
+          
+          <!-- Секція підписки -->
+          <div class="footer-subscribe">
+            <h2>МАЄШ ЩО СКАЗАТИ?</h2>
+            <p>Залиш свій коментар — поділись думками, враженнями чи порадами!</p>
+            <form action="https://formspree.io/f/mgvagjzk" method="POST">
+              <label>
+                  <input type="email" placeholder="Твоя адреса" name="email" required>
+              </label>
+              <label>
+                  <textarea name="message" placeholder="Коментар" required></textarea>
+              </label>
+              <button type="submit">Відправити</button>
+          </form>
+            <div class="social-icons">
+              <a href="https://instagram.com" target="_blank">
+                <img src="Instagram.png" alt="Instagram" class="social-icon">
+              </a>
+              <a href="https://Youtube.com/" target="_blank">
+                <img src="Youtube.png" alt="Youtube" class="social-icon">
+              </a>
+              <a href="https://facebook.com" target="_blank">
+                <img src="Facebook.png" alt="Facebook" class="social-icon">
+              </a>
+              <a href="https://pinterest.com" target="_blank">
+                <img src="pinterest.png" alt="Pinterest" class="social-icon">
+              </a>
+            </div>
+            
+          </div>
+      
+          <!-- Секція посилань -->
+          <div class="footer-links">
+            <div>
+              <h3>МАГАЗИН</h3>
+              <ul>
+                <li><a href="#">Купити зараз</a></li>
+                <li><a href="#">Продукти</a></li>
+                <li><a href="#">Напої</a></li>
+                <li><a href="#">Порційні шоти</a></li>
+                <li><a href="#">Добавки</a></li>
+                <li><a href="#">Розчинні мікси</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3>ПРО НАС</h3>
+              <ul>
+                <li><a href="#">Чому ми</a></li>
+                <li><a href="#">Про компанію</a></li>
+                <li><a href="#">Блог</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3>ПІДТРИМКА</h3>
+              <ul>
+                <li><a href="#">Контакти</a></li>
+                <li><a href="#">Де купити</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Доступність</a></li>
+                <li><a href="#">CA Supply Chains Act</a></li>
+              </ul>
+            </div>
+          </div>
+      
+        </div>
+      
+        <!-- Низ футера -->
+        <div class="footer-bottom">
+          <p>&copy; 2025 Усі права захищено | <a href="#">Політика конфіденційності</a> | <a href="#">Умови використання</a> | <a href="#">Повернення</a> | <a href="#">Контакти</a></p>
+        </div>
+      </footer>
+</body>
+</html>
+
+
+
+

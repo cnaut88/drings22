@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карусель товарів з пошуком</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Стилі для пошуку */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .search-input {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* Прозоре затемнення */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .search-results {
+            background-color: white;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+            max-height: 400px;
+        }
+
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .search-results button {
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .search-results button:hover {
+            background-color: #0056b3;
+        }
+
+        .product-title {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .product-price {
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header style="padding: 10px; display: flex; justify-content: flex-end;">
+        <a href="favorites.html" style="text-decoration: none;">
+            <button id="favorites-counter" style="position: relative; font-size: 18px; padding: 10px 20px;">
+                Улюблені ❤️ (<span id="favorite-count">0</span>)
+            </button>
+        </a>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="search-input" class="search-input" placeholder="Пошук товарів...">
+    </div>
+
+    <!-- Прозоре затемнення для результатів пошуку -->
+    <div id="overlay" class="overlay">
+        <div class="search-results">
+            <div id="search-results-container"></div>
+            <button id="load-more" style="display: none;">Показати більше</button>
+        </div>
+    </div>
+
+    <div class="carousel-container">
+        <div class="carousel-slide">
+            <div class="product-card" data-product="1">
+                <img src="pngwing.com (1).png" alt="Samsung Galaxy S24" class="product-image">
+                <h3 class="product-title">Samsung Galaxy S24</h3>
+                <p class="product-price">Ціна: 13 999 грн</p>
+            </div>
+
+            <div class="product-card" data-product="2">
+                <img src="https://via.placeholder.com/300x200" alt="iPhone 14" class="product-image">
+                <h3 class="product-title">iPhone 14</h3>
+                <p class="product-price">Ціна: 22 999 грн</p>
+            </div>
+
+            <div class="product-card" data-product="3">
+                <img src="https://via.placeholder.com/300x200" alt="Xiaomi 12" class="product-image">
+                <h3 class="product-title">Xiaomi 12</h3>
+                <p class="product-price">Ціна: 11 499 грн</p>
+            </div>
+
+            <div class="product-card" data-product="4">
+                <img src="https://via.placeholder.com/300x200" alt="OnePlus 9" class="product-image">
+                <h3 class="product-title">OnePlus 9</h3>
+                <p class="product-price">Ціна: 18 999 грн</p>
+            </div>
+
+            <div class="product-card" data-product="5">
+                <img src="https://via.placeholder.com/300x200" alt="Realme GT" class="product-image">
+                <h3 class="product-title">Realme GT</h3>
+                <p class="product-price">Ціна: 14 499 грн</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            { title: 'Samsung Galaxy S24', price: '13 999 грн', description: 'Оперативна пам\'ять: 8 ГБ, Камера: 50 МП, Процесор: Exynos 2100' },
+            { title: 'iPhone 14', price: '22 999 грн', description: 'Оперативна пам\'ять: 6 ГБ, Камера: 12 МП, Процесор: A15 Bionic' },
+            { title: 'Xiaomi 12', price: '11 499 грн', description: 'Оперативна пам\'ять: 12 ГБ, Камера: 50 МП, Процесор: Snapdragon 8 Gen 1' },
+            { title: 'OnePlus 9', price: '18 999 грн', description: 'Оперативна пам\'ять: 12 ГБ, Камера: 48 МП, Процесор: Snapdragon 888' },
+            { title: 'Realme GT', price: '14 499 грн', description: 'Оперативна пам\'ять: 8 ГБ, Камера: 64 МП, Процесор: Snapdragon 870' }
+        ];
+
+        const searchInput = document.getElementById('search-input');
+        const overlay = document.getElementById('overlay');
+        const searchResultsContainer = document.getElementById('search-results-container');
+        const loadMoreButton = document.getElementById('load-more');
+
+        let currentSearchResults = [];
+        let currentIndex = 0;
+
+        // Функція для пошуку товарів
+        function searchProducts(query) {
+            currentIndex = 0; // скидаємо індекс для перегортання
+            currentSearchResults = products.filter(product =>
+                product.title.toLowerCase().includes(query.toLowerCase())
+            );
+            displaySearchResults();
+        }
+
+        // Виведення результатів пошуку
+        function displaySearchResults() {
+            searchResultsContainer.innerHTML = '';
+            const visibleResults = currentSearchResults.slice(currentIndex, currentIndex + 3);
+
+            visibleResults.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.classList.add('product-card');
+                productElement.innerHTML = `
+                    <h3 class="product-title">${product.title}</h3>
+                    <p class="product-price">${product.price}</p>
+                `;
+                searchResultsContainer.appendChild(productElement);
+            });
+
+            // Показати кнопку "Показати більше" якщо є більше 3 товарів
+            loadMoreButton.style.display = currentIndex + 3 < currentSearchResults.length ? 'block' : 'none';
+        }
+
+        // Завантаження більше результатів
+        loadMoreButton.addEventListener('click', () => {
+            currentIndex += 3;
+            displaySearchResults();
+        });
+
+        // Пошук по введеному запиту
+        searchInput.addEventListener('input', (event) => {
+            const query = event.target.value;
+            if (query.length > 0) {
+                overlay.style.display = 'flex';
+                searchProducts(query);
+            } else {
+                overlay.style.display = 'none';
+            }
+        });
+
+        // Закриття результатів пошуку при кліку поза область
+        window.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+

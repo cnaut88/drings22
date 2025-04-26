@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Улюблені товари</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        
+        
+
+
+
+
+
+
+
+
+    </style>
+
+   
+</head>
+<body>
+    <div class="centered-button-wrapper1">
+        <button class="animated-button" id="animated-button"></button>
+    </div>
+
+    <div id="favorites-list" class="favorites-container"></div>
+    <button class="back-button" onclick="window.history.back()">Назад</button>
+
+    <script>
+        const allProducts = {
+            '1': {
+                title: 'Samsung Galaxy S24',
+                price: '13 999 грн',
+                image: 'https://via.placeholder.com/300x200',
+                description: [
+                    "Оперативна пам'ять: 8 ГБ",
+                    "Камера: 50 МП",
+                    "Процесор: Exynos 2100"
+                ]
+            },
+            '2': {
+                title: 'iPhone 14',
+                price: '22 999 грн',
+                image: 'https://via.placeholder.com/300x200',
+                description: [
+                    "Оперативна пам'ять: 6 ГБ",
+                    "Камера: 12 МП",
+                    "Процесор: A15 Bionic"
+                ]
+            },
+            '3': {
+                title: 'Xiaomi 12',
+                price: '11 499 грн',
+                image: 'https://via.placeholder.com/300x200',
+                description: [
+                    "Оперативна пам'ять: 12 ГБ",
+                    "Камера: 50 МП",
+                    "Процесор: Snapdragon 8 Gen 1"
+                ]
+            }
+        };
+
+        function getFavorites() {
+            return JSON.parse(localStorage.getItem('favorites')) || [];
+        }
+
+        function saveFavorites(favorites) {
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        function renderFavorites() {
+            const favoritesList = document.getElementById('favorites-list');
+            const favorites = getFavorites();
+
+            favoritesList.innerHTML = '';
+
+            if (favorites.length === 0) {
+                favoritesList.innerHTML = '<p class="no-favorites">Улюблені товари відсутні.</p>';
+                return;
+            }
+
+            favorites.forEach(id => {
+                const product = allProducts[id];
+                if (!product) return;
+
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <button class="remove-btn" title="Видалити з улюбленого" data-id="${id}">×</button>
+                    <img src="${product.image}" alt="${product.title}" class="product-image1">
+                    <h3 class="product-title">${product.title}</h3>
+                    <p class="product-price">Ціна: ${product.price}</p>
+                    <div class="product-description">
+                        ${product.description.map(line => `<p>${line}</p>`).join('')}
+                    </div>
+                `;
+                favoritesList.appendChild(card);
+            });
+
+            // Додаємо обробник на кнопки видалення
+            document.querySelectorAll('.remove-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.getAttribute('data-id');
+                    const updatedFavorites = getFavorites().filter(fav => fav !== id);
+                    saveFavorites(updatedFavorites);
+                    renderFavorites(); // оновити вивід
+                });
+            });
+        }
+
+        const animatedButton = document.getElementById('animated-button');
+        const text = "Улюблені товари";
+        let index = 0;
+
+        function typeAnimation() {
+            if (index === 0) {
+                animatedButton.textContent = "\u00A0".repeat(text.length); // Порожній простір збереження розміру
+            } else {
+                animatedButton.textContent = text.substring(0, index);
+            }
+
+            index++;
+            if (index > text.length) index = 0;
+
+            setTimeout(typeAnimation, 150);
+        }
+
+        typeAnimation();
+        renderFavorites();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

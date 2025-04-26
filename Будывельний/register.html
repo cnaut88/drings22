@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анімація вогника між кнопками</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #222;
+        }
+
+        .button-container {
+            position: relative;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            position: relative;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: #444;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #666;
+        }
+
+        /* Елемент для ефекту вогника */
+        .fire-effect {
+            position: absolute;
+            width: 50px;
+            height: 5px;
+            background: radial-gradient(circle, orange, red);
+            border-radius: 5px;
+            transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="button-container">
+        <button class="btn" data-index="1">Кнопка 1</button>
+        <button class="btn" data-index="2">Кнопка 2</button>
+        <button class="btn" data-index="3">Кнопка 3</button>
+        <button class="btn" data-index="4">Кнопка 4</button>
+        <div class="fire-effect"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const buttons = document.querySelectorAll(".btn");
+            const fireEffect = document.querySelector(".fire-effect");
+
+            buttons.forEach(button => {
+                button.addEventListener("click", (event) => {
+                    const rect = button.getBoundingClientRect();
+                    const containerRect = document.querySelector(".button-container").getBoundingClientRect();
+
+                    // Встановлюємо позицію вогника по центру кнопки
+                    fireEffect.style.left = `${rect.left - containerRect.left + rect.width / 2 - 25}px`;
+                    fireEffect.style.top = `${rect.top - containerRect.top + rect.height}px`;
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карусель товарів</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <header style="padding: 10px; display: flex; justify-content: flex-end;">
+        <a href="favorites.html" style="text-decoration: none;">
+            <button id="favorites-counter" style="position: relative; font-size: 18px; padding: 10px 20px;">
+                Улюблені ❤️ (<span id="favorite-count">0</span>)
+            </button>
+        </a>
+    </header>
+
+    <div class="carousel-container">
+        <div class="carousel-slide">
+            <div class="product-card" data-product="1">
+                <button class="favorite-btn" aria-label="Додати в улюблені">♡</button>
+                <img src="pngwing.com (1).png" alt="Samsung Galaxy S24" class="product-image">
+                <h3 class="product-title">Samsung Galaxy S24</h3>
+                <p class="product-price">Ціна: 13 999 грн</p>
+                <div class="product-description">
+                    <p>Оперативна пам'ять: 8 ГБ</p>
+                    <p>Камера: 50 МП</p>
+                    <p>Процесор: Exynos 2100</p>
+                </div>
+                <div class="star-rating" id="rating-1">
+                    <span data-star="1">★</span>
+                    <span data-star="2">★</span>
+                    <span data-star="3">★</span>
+                    <span data-star="4">★</span>
+                    <span data-star="5">★</span>
+                </div>
+                <div class="product-rating" id="product-rating-1"></div>
+            </div>
+
+            <div class="product-card" data-product="2">
+                <button class="favorite-btn" aria-label="Додати в улюблені">♡</button>
+                <img src="https://via.placeholder.com/300x200" alt="iPhone 14" class="product-image">
+                <h3 class="product-title">iPhone 14</h3>
+                <p class="product-price">Ціна: 22 999 грн</p>
+                <div class="product-description">
+                    <p>Оперативна пам'ять: 6 ГБ</p>
+                    <p>Камера: 12 МП</p>
+                    <p>Процесор: A15 Bionic</p>
+                </div>
+                <div class="star-rating" id="rating-2">
+                    <span data-star="1">★</span>
+                    <span data-star="2">★</span>
+                    <span data-star="3">★</span>
+                    <span data-star="4">★</span>
+                    <span data-star="5">★</span>
+                </div>
+                <div class="product-rating" id="product-rating-2"></div>
+            </div>
+
+            <div class="product-card" data-product="3">
+                <button class="favorite-btn" aria-label="Додати в улюблені">♡</button>
+                <img src="https://via.placeholder.com/300x200" alt="Xiaomi 12" class="product-image">
+                <h3 class="product-title">Xiaomi 12</h3>
+                <p class="product-price">Ціна: 11 499 грн</p>
+                <div class="product-description">
+                    <p>Оперативна пам'ять: 12 ГБ</p>
+                    <p>Камера: 50 МП</p>
+                    <p>Процесор: Snapdragon 8 Gen 1</p>
+                </div>
+                <div class="star-rating" id="rating-3">
+                    <span data-star="1">★</span>
+                    <span data-star="2">★</span>
+                    <span data-star="3">★</span>
+                    <span data-star="4">★</span>
+                    <span data-star="5">★</span>
+                </div>
+                <div class="product-rating" id="product-rating-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const productRatings = {
+            '1': { ratings: [], users: 0 }, 
+            '2': { ratings: [], users: 0 }, 
+            '3': { ratings: [], users: 0 }
+        };
+
+        const starRatings = document.querySelectorAll('.star-rating');
+        starRatings.forEach(rating => {
+            const stars = rating.querySelectorAll('span');
+            stars.forEach(star => {
+                star.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const productId = rating.closest('.product-card').getAttribute('data-product');
+                    const ratingValue = star.getAttribute('data-star');
+                    productRatings[productId].ratings.push(Number(ratingValue));
+                    productRatings[productId].users++;
+                    updateProductRating(productId);
+                });
+            });
+        });
+
+        function updateProductRating(productId) {
+            const ratings = productRatings[productId].ratings;
+            const users = productRatings[productId].users;
+            let averageRating = 0;
+
+            if (users > 0) {
+                const totalRating = ratings.reduce((sum, rating) => sum + rating, 0);
+                averageRating = totalRating / users;
+            }
+
+            const productRatingContainer = document.getElementById(`product-rating-${productId}`);
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= Math.floor(averageRating)) {
+                    starsHtml += '<span style="color: #ff9900;">★</span>';
+                } else if (i - 0.5 <= averageRating) {
+                    starsHtml += '<span style="color: #ff9900;">☆</span>';
+                } else {
+                    starsHtml += '<span style="color: #ccc;">★</span>';
+                }
+            }
+
+            starsHtml += ` <span style="font-size: 16px; color: #333;">(${averageRating.toFixed(1)}) — ${users} оцінок</span>`;
+            productRatingContainer.innerHTML = starsHtml;
+        }
+
+        const favoriteButtons = document.querySelectorAll('.favorite-btn');
+
+        function getFavorites() {
+            return JSON.parse(localStorage.getItem('favorites')) || [];
+        }
+
+        function saveFavorites(favorites) {
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        function updateFavoriteCounter() {
+            const count = getFavorites().length;
+            document.getElementById('favorite-count').textContent = count;
+        }
+
+        favoriteButtons.forEach(button => {
+            const card = button.closest('.product-card');
+            const productId = card.getAttribute('data-product');
+
+            if (getFavorites().includes(productId)) {
+                button.classList.add('active');
+            }
+
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                let favorites = getFavorites();
+
+                if (favorites.includes(productId)) {
+                    favorites = favorites.filter(id => id !== productId);
+                    button.classList.remove('active');
+                } else {
+                    favorites.push(productId);
+                    button.classList.add('active');
+                }
+
+                saveFavorites(favorites);
+                updateFavoriteCounter();
+            });
+        });
+
+        Object.keys(productRatings).forEach(id => updateProductRating(id));
+        updateFavoriteCounter();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

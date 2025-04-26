@@ -1,0 +1,1123 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: linear-gradient(45deg, rgb(167, 5, 5), rgb(253, 93, 35)); /* Без вертикального переміщення */
+    background-size: 300% 300%; /* Великий розмір фону для анімації */
+    animation: gradientBG 2s infinite alternate linear; /* Анімація для плавного переливу */
+    transition: background 0.1s, color 0.1s;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+:root {
+    --bg-light: hsl(0, 100%, 48%);
+    --bg-dark: hsl(246, 88.60%, 13.70%);
+    --shadow-light: rgba(248, 0, 0, 0.57);
+    --shadow-dark: rgba(255, 255, 255, 0.2);
+}
+
+
+  
+  
+  
+  
+  
+header {
+    background-color(0,0,0,0,5)
+    padding: 15px;
+    text-align: center;
+}
+
+/* Контейнер для результатів пошуку */
+.search-results {
+    position: absolute;
+    top: 100%; /* Розташування під полем пошуку */
+    left: 0;
+    right: 0;
+    background-color: #fff; /* Білий фон */
+    border: 1px solid #ddd; /* Світла рамка */
+    padding: 10px;
+    border-radius: 5px; /* Округлені кути */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Легенька тінь */
+    color: #333; /* Темний текст */
+    font-size: 14px; /* Розмір шрифту */
+    max-height: 300px;
+    overflow-y: auto; /* Прокручування, якщо результатів багато */
+    display: none; /* Спочатку не показується */
+    z-index: 1000; /* Перекриває інші елементи */
+  }
+  
+  /* Клас для відображення результатів пошуку */
+  .search-results.active {
+    display: block; /* Показує результати, коли є активний пошук */
+    animation: fadeIn 0.3s ease; /* Анімація появи */
+  }
+  
+  /* Стилі для елементів списку результатів */
+  .search-results li {
+    padding: 8px;
+    list-style: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-results li:hover {
+    background-color: #f0f0f0; /* Легке затемнення при наведенні */
+  }
+  
+  /* Анімація для зникнення */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+/* Загальний стиль модального вікна */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Затемнення фону */
+    display: none; /* Спочатку модальне вікно не видно */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Клас для активації модального вікна */
+.modal.active {
+    display: flex;
+    opacity: 1; /* Модальне вікно з'являється */
+    animation: fadeIn 0.5s ease-out; /* Анімація входу */
+}
+
+/* Анімація для входу модального вікна */
+@keyframes fadeIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Стиль для контенту модального вікна */
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    
+}
+
+/* Анімація для контенту модального вікна */
+
+
+/* Стиль для кнопки закриття */
+/* Стиль для кнопки закриття без повороту */
+/* Стиль для кнопки закриття з анімацією пульсації */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Анімація для хрестика, пульсація */
+.close-btn:hover {
+    color: #e74c3c;
+    transform: scale(1.2);  /* Збільшення при наведенні */
+    animation: pulse 0.6s infinite;  /* Пульсація */
+}
+
+/* Пульсація для хрестика */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+
+/* Заголовок та ціна */
+/* Заголовок модального вікна з анімацією */
+#modal-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Опис продукту з анімацією */
+#modal-description {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.5s forwards; /* З’являється після заголовка */
+}
+
+/* Анімація для заголовка і опису */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Стиль для ціни */
+#modal-price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #27ae60;
+    animation: fadeInUp 1s ease-out 0.8s forwards; /* Ціна з’являється після опису */
+}
+
+/* Фон модального вікна з плавним переливом */
+/* Стиль для контенту модального вікна з анімацією */
+
+
+/* Анімація для контенту, що з’являється знизу */
+
+
+
+/* Анімація для текстів (заголовок, опис) */
+@keyframes fadeInText {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Стиль для ціни */
+#modal-price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #27ae60;
+    animation: fadeInText 0.8s ease-out 0.7s forwards; /* Ціна з'являється пізніше */
+}
+
+.container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+.animated-photo:hover {
+    transform: scale(1.1);
+}
+        
+
+        
+.animated-photo {
+    width: 300px;
+    height: auto;
+    opacity: 0;
+    transform: scale(0.5) rotate(-180deg);
+    animation: fadeInZoom 2s ease-in-out forwards;
+}
+        
+@keyframes fadeInZoom {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) rotate(-180deg);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+}
+
+
+
+.dark-theme {
+    background: var(--bg-dark);
+    color: rgb(255, 0, 0);
+}
+
+button {
+    padding: 10px 20px;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+}
+.socket {
+    display: inline-block;
+    padding: 20px;
+    margin-top: 20px;
+    background: rgb(251, 1, 1);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px var(--shadow-light);
+    transition: box-shadow 0.3s;
+}
+
+
+
+
+
+span {
+    font-size: 16px;
+    color: white;
+}
+
+body.dark-theme {
+    background-color: #1a1a40;
+    color:rgb(255, 255, 255);
+}
+
+
+
+.buy-button {
+    background: #ff6600;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.buy-button:hover {
+    background: #cc5500;
+}
+
+
+
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.9);}
+    to {opacity: 1; transform: scale(1);}
+}
+.carousel {
+    width: 540px;
+    margin: 30px auto;
+    overflow-x: scroll;
+    display: flex;
+    gap: 10px;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+}
+
+.carousel > img {
+    scroll-snap-align: center;
+    width: 120px;
+    height: auto;
+}
+
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 10px;
+}
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+.menu button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    font-weight: bold;
+    color: rgb(241, 241, 241);
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+    background-color: transparent;
+}
+
+.menu-button {
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.menu-button .bar {
+    display: block;
+    width: 30px;
+    height: 4px;
+    margin: 5px 0;
+    background-color: #fff;
+    transition: 0.3s;
+}
+
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    color: #fff;
+    transition: left 0.3s ease-in-out;
+    padding-top: 60px;
+    z-index: 999;
+}
+
+#sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+#sidebar ul li {
+    padding: 15px;
+    border-bottom: 1px solid #555;
+}
+
+#sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+    z-index: 998;
+}
+
+#overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+#sidebar.active {
+    left: 0;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+    margin-left: 10px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(18px);
+}
+.footer {
+    background-color: #008000;
+    color: white;
+    padding: 40px 20px;
+    font-family: sans-serif;
+  }
+  
+  /* Контейнер */
+  .footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+    gap: 40px; /* Відступ між subscribe і links */
+  }
+  
+  /* Секція підписки */
+  .footer-subscribe {
+    flex: 1 1 200px;
+  }
+  
+  .footer-subscribe h2 {
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .footer-subscribe p {
+    margin-top: 10px;
+  }
+  
+  .footer-subscribe form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+  
+  .footer-subscribe input[type="email"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    flex: 1;
+  }
+  
+  .footer-subscribe button {
+    background-color: purple;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+  
+  /* Соцмережі */
+  .social-icons {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .social-icons a {
+    display: inline-block;
+    outline: none;
+  }
+  
+  .social-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px; /* якщо хочеш кругліші — став 50% */
+    transition: transform 0.3s ease;
+    display: block;
+  }
+  
+  .social-icon:hover {
+    transform: scale(1.15);
+  }
+  
+  /* Забираємо блакитний фокус */
+  .social-icons a:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  
+  
+  /* Посилання */
+  .footer-links {
+    display: flex;
+    gap: 40px; /* Відступ між колонками в links */
+    flex: 2 1 400px;
+    flex-wrap: wrap;
+  }
+  
+  .footer-links > div {
+    min-width: 150px;
+    margin-bottom: 20px; /* Відступ знизу, якщо на малих екранах буде перенос */
+  }
+  
+  .footer-links h3 {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .footer-links ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-links li {
+    margin-bottom: 5px;
+  }
+  
+  .footer-links a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  /* Низ футера */
+  .footer-bottom {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
+  }
+  
+  .footer-bottom a {
+    color: white;
+    text-decoration: none;
+    margin: 0 5px;
+  }
+  form {
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="email"], textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: none; /* Запобігає збільшенню розміру області вводу */
+}
+
+textarea {
+    resize:none;
+    overflow:auto;
+    
+     /* Додає вертикальний скрол, якщо вміст більший за висоту */
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+
+
+input[type="email"]:focus, textarea:focus {
+    border-color: #66afe9;
+    outline: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#search-input {
+    width: 300px; /* Забезпечує повну ширину */
+    margin-top:20px;
+    padding: 13px; /* Робить поле пошуку більшим */
+    font-size: 18px; /* Збільшує розмір шрифта */
+    color: white; /* Білий колір тексту */
+    background-color: rgba(255, 255, 255, 0.14); /* Прозорий білий фон */
+    border: 2px solid #ccc; /* Світла обводка */
+    border-radius: 8px; /* Округлені краї */
+    box-sizing: border-box; /* Враховує padding в розміри */
+}
+
+#search-input::placeholder {
+    color: white; /* Білий колір для тексту placeholder */
+    opacity: 0.7; /* Зменшує прозорість тексту placeholder */
+}
+
+
+
+
+/* Зазначення адаптивних властивостей */
+@media (max-width: 1200px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .footer-links > div {
+        width: 100%;
+        text-align: center;
+    }
+    .product-container {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .carousel {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .carousel > img {
+        width: 100px;
+    }
+
+    .menu {
+        flex-direction: column;
+    }
+
+    .footer-container {
+        gap: 20px;
+    }
+
+    .footer-subscribe form {
+        flex-direction: column;
+    }
+
+    .footer-subscribe input[type="email"] {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .footer-subscribe button {
+        width: 100%;
+    }
+
+    .menu-button .bar {
+        width: 25px;
+    }
+
+    .footer-bottom {
+        font-size: 12px;
+    }
+
+    .product {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 10px;
+    }
+
+    .container {
+        margin-top: 10px;
+    }
+
+    .animated-photo {
+        width: 80%;
+    }
+
+    .socket {
+        padding: 10px;
+    }
+
+    .footer-container {
+        gap: 15px;
+    }
+
+    .social-icons {
+        gap: 10px;
+    }
+
+    .footer-subscribe h2 {
+        font-size: 18px;
+    }
+
+    .footer-links h3 {
+        font-size: 16px;
+    }
+}
+
+
+
+
+.favorites-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Стиль картки товару з анімацією на рамці */
+.product-card {
+    border: 5px solid transparent; /* Спочатку прозора рамка */
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    margin: 0 20px; 
+    position: relative;
+    width: 300px;
+    animation: borderGlow 1.5s infinite alternate; /* Анімація для рамки */
+}
+
+/* Стиль для змінної рамки */
+@keyframes borderGlow {
+    0% {
+        border-color: #ff7f50; /* Оранжевий */
+    }
+    25% {
+        border-color: #ff1493; /* Рожевий */
+    }
+    50% {
+        border-color: #00bfff; /* Блакитний */
+    }
+    75% {
+        border-color: #32cd32; /* Зелений */
+    }
+    100% {
+        border-color: #ff4500; /* Червоний */
+    }
+}
+
+.product-image {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.product-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.product-price {
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.product-description p {
+    margin: 2px 0;
+}
+
+
+.product-image {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.product-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+    animation: glowing 1.5s ease-in-out infinite alternate; /* Додаємо анімацію до назви товару */
+}
+
+.product-price {
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.product-description p {
+    margin: 2px 0;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    color: #e60000;
+    cursor: pointer;
+}
+.remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+    color: #e60000;
+    cursor: pointer;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-btn:hover {
+    transform: scale(1.1);
+    background-color: #ffe6e6;
+}
+.no-favorites {
+    font-size: 18px;
+    color: #777;
+}
+
+.animated-button {
+    font-size: 22px;
+    padding: 12px 24px;
+    background-color: transparent;
+    color: #ffffff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    min-width: 240px;
+    min-height: 50px;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    box-shadow: none;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Ефект при наведенні */
+.animated-button:hover {
+    background-color: rgba(255, 102, 0, 0.1); /* легке підсвічування при наведенні */
+    color: #b49179;
+    transform: scale(1.05);
+}
+
+.centered-button-wrapper1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+@keyframes glowing {
+    0% {
+        color: #fff;
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff007f, 0 0 30px #ff007f, 0 0 40px #ff007f, 0 0 50px #ff007f;
+    }
+    50% {
+        color: #ff007f;
+        text-shadow: 0 0 5px #ff007f, 0 0 10px #ff007f, 0 0 20px #ff007f, 0 0 30px #ff007f, 0 0 40px #ff007f, 0 0 50px #ff007f;
+    }
+    100% {
+        color: #00bfff;
+        text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 20px #00bfff, 0 0 30px #00bfff, 0 0 40px #00bfff, 0 0 50px #00bfff;
+    }
+}
+.back-button {
+    font-size: 22px;
+    padding: 12px 24px;
+    background-color: transparent;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 30px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+/* Анімація кнопки при наведенні */
+.back-button:hover {
+    background-color: rgba(255, 102, 0, 0.1);
+    color: #ff6600;
+    transform: scale(1.05);
+}
+.favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #ff9f00;
+    padding: 10px; display: flex; justify-content: flex-end;
+}
+.favorite-btn.active {
+    color: #e60000;
+}
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+.carousel-slide {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    padding:30px;
+}
+
+.product-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+.product-price {
+    color: #333;
+}
+.favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #ff9f00;
+}
+.favorite-btn.active {
+    color: #e60000;
+}
+
+.product-card .product-description {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+.product-card:hover .product-description {
+    max-height: 200px;
+}
+
+/* Збільшення картки при наведенні */
+.product-card:hover {
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.product-card.active {
+    transform: scale(1.1);
+    z-index: 2;
+}
+
+/* Модальне вікно */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-top: 60px;
+}
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Зірки для рейтингу */
+.star-rating {
+    display: inline-block;
+    cursor: pointer;
+    visibility: hidden; /* Початково приховані зірки */
+}
+.star-rating span {
+    font-size: 25px;
+    color: #ccc;
+}
+.star-rating .filled {
+    color: #ff9900;
+}
+
+.product-rating {
+    display: flex;
+    justify-content: flex-start;
+}
+.product-rating span {
+    font-size: 20px;
+    color: #ff9900;
+}
+
+.product-card:hover .star-rating {
+    visibility: visible; /* Показуємо зірки при наведенні */
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
